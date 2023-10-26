@@ -14,41 +14,42 @@ let operator;
 
 
 
-function operator() {
+function operator(previousOperand, currentOperand, operator) {
     
 
-    switch(){
+    switch(operator){
         case '+':
-            add()
-        break;
+            return add(previousOperand, currentOperand);
             
         case '-':
-            subtract();
-        break;
+            return subtract(previousOperand, currentOperand);
 
         case '÷':
-            divide();
-        break;
+            return divide(previousOperand, currentOperand);
 
         case '*':
-            multiply();
-        break;
+            return multiply(previousOperand, currentOperand);
+        default:
+            return 'ERROR';
     }
 }
 
 function add(a, b){
-        return a + b
+        return a + b;
 }
 
 function subtract(a, b) {
-    return a - b
+    return a - b;
 }
 
 function divide(a, b) {
-    return a / b
+    if (b === 0) {
+        return 'Cannot divide by Zero'
+    } 
+    return a / b;
 }
 
 function multiply(a, b) {
-    return a * b
+    return a * b;
 }
 
