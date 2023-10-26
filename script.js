@@ -7,57 +7,48 @@ const equalsButton = document.querySelector('data-equals-button');
 const deleteButton = document.querySelector('data-delete-button');
 
 
-class Calculator {
-    constructor (currentOperand, previousOperand) {
-        this.currentOperand = currentOperand;
-        this.previousOperand = previousOperand;
-    }
 
-    updateDisplay() {
-        
-    }
-
-}
+let a;  //num1
+let b;  //num2
+let operator;
 
 
 
-//operations
-    function add(a,b) {
-        let result = a + b;
-        return result
-    }
-    function subtract(a,b) {
-        let result = a - b;
-        return result
-    }
-    function multiply(a,b) {
-        let result = a * b;
-        return result
-    }
-    function divide(a,b) {
-        let result = a / b;
-        return result
-    }
+function operator() {
+    
 
-
-operate(currentOperand, previousOperand, operator) {
-    switch(operator) {
-        case '+': 
-            return add(a,b);
+    switch(){
+        case '+':
+            add()
+        break;
+            
         case '-':
-            return subtract(a,b);
+            subtract();
+        break;
+
+        case '÷':
+            divide();
+        break;
+
         case '*':
-            return multiply(a,b);
-        case '/':
-            return divide(a,b);
-        default:
-            return 'Invalid';
+            multiply();
+        break;
     }
 }
 
-
-
-
-allClear(){
-
+function add(a, b){
+        return a + b
 }
+
+function subtract(a, b) {
+    return a - b
+}
+
+function divide(a, b) {
+    return a / b
+}
+
+function multiply(a, b) {
+    return a * b
+}
+
