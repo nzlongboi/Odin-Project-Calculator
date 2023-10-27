@@ -1,17 +1,46 @@
-const previousOperandTextElement = document.querySelector('data-previous-operand');
-const currentOperandTextElement = document.querySelector('data-current-operand');
-const numberButtons = document.querySelectorAll('data-number');
-const operatorButton = document.querySelectorAll('data-operation');
-const allClearButton = document.querySelector('data-all-clear');
-const equalsButton = document.querySelector('data-equals-button');
-const deleteButton = document.querySelector('data-delete-button');
+const previousOperandTextElement = document.querySelector('[data-previous-operand]');
+const currentOperandTextElement = document.querySelector('[data-current-operand]');
+const numberButtons = document.querySelectorAll('[data-number]');
+const operatorButton = document.querySelectorAll('[data-operation]');
+const allClearButton = document.querySelector('[data-all-clear]');
+const equalsButton = document.querySelector('[data-equals-button]');
+const deleteButton = document.querySelector('[data-delete-button]');
 
 
 
-let a;  //num1
-let b;  //num2
-let operator;
+let currentOperand = '';
+let previousOperand = '';
+let operation = '';
 
+
+numberButtons.forEach(button => {
+    button.addEventListener('click', ()=> {
+        appendNumber(button.textContent);
+        updateDisplay();
+    });
+});
+
+
+operatorButton.forEach(button => {
+    button.addEventListener('click', ()=> {
+        appendNumber(button.textContent);
+        updateDisplay();
+    });
+});
+
+equalsButton.addEventListener('click', () => {
+    compute();
+    updateDisplay();
+});
+
+allClearButton.addEventListener('click', ()=> {
+    clear();
+    updateDisplay();
+});
+
+//deleteButton.addEventListener('click', ()=> {
+    
+})
 
 
 function operator(previousOperand, currentOperand, operator) {
@@ -34,6 +63,27 @@ function operator(previousOperand, currentOperand, operator) {
     }
 }
 
+
+
+
+function clear() {
+    currentOperand = '';
+    previousOperand = '';
+    operation = undefined;
+}
+
+
+
+function updateDisplay() {
+    currentOperandTextElement.textContent = currentOperand;
+    if (operation) {
+        previousOperandTextElement.textContent = `${previousOperand} ${operation}`;
+    } else {
+        previousOperandTextElement.textContent = '';
+    }
+}
+
+
 function add(a, b){
         return a + b;
 }
@@ -52,4 +102,6 @@ function divide(a, b) {
 function multiply(a, b) {
     return a * b;
 }
+
+
 
