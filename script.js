@@ -3,105 +3,127 @@ const currentOperandTextElement = document.querySelector('[data-current-operand]
 const numberButtons = document.querySelectorAll('[data-number]');
 const operatorButton = document.querySelectorAll('[data-operation]');
 const allClearButton = document.querySelector('[data-all-clear]');
-const equalsButton = document.querySelector('[data-equals-button]');
+const equalsButton = document.querySelector('[data-equals]');
 const deleteButton = document.querySelector('[data-delete-button]');
 
 
+class Calculator {
+    constructor(currentOperandTextElement, previousOperandTextElement) {
+        this.currentOperandTextElement = currentOperandTextElement;
+        this.previousOperandTextElement = previousOperandTextElement;
+        this.clear();
+}
 
-let currentOperand = '';
-let previousOperand = '';
-let operation = '';
+
+clear() {
+    this.currentOperand = '';
+    this.previousOperand = '';
+    this.operation = null;
+}
+
+delete() {
+    this.currentOperand = this.currentOperand.toString().slice(0, -1);
+}
+
+appendNumber(number) {
+    if (number === '.' && this.currentOperand.includes('.')) return;
+    this.currentOperand = this.currentOperand.toString() + number.toString();
+}
 
 
-numberButtons.forEach(button => {
-    button.addEventListener('click', ()=> {
-        appendNumber(button.textContent);
-        updateDisplay();
+flushOperator(operation) {
+    if (this.currentOperand === '') return;
+    if (this.previousOperand !== '') {
+        this.compute();
+}
+}
+
+
+compute() {
+    let computation;
+    const previous = parseFloat(this.previousOperand);
+    const current = parseFloat(this.currentOperand);
+
+    if (isNaN(previous) || isNaN(current)) return;
+    switch (this.operation) {
+        case '+':
+            computation = previous + current;
+        break;
+
+        case '-':
+            computation = previous - current;
+        break;
+
+        case '*':
+            computation = previous * current;
+        break;
+
+        case '÷':
+            computation = previous / current;
+        break;
+
+        default:
+            return
+    }
+    this.currentOperand = computation;
+    this.previousOperand = '';
+    this.operation = undefined;
+}
+
+
+updateDisplay() {
+    this.currentOperandTextElement.innerText = this.currentOperand;
+    if (this.operation !=null) {
+        this.previousOperandTextElement.innerText = `${this.previousOperand} ${this.operation}`;
+    }
+}
+
+}
+
+
+
+let calculator = new Calculator(
+    currentOperandTextElement,
+    previousOperandTextElement
+);
+
+numberButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        calculator.appendNumber(button.innerText);
+        calculator.updateDisplay();
     });
 });
 
-
-operatorButton.forEach(button => {
-    button.addEventListener('click', ()=> {
-        appendNumber(button.textContent);
-        updateDisplay();
+operatorButton.forEach((button) => {
+    button.addEventListener('click', () => {
+        calculator.flushOperator(button.innerText);
+        calculator.updateDisplay();
     });
 });
 
 equalsButton.addEventListener('click', () => {
-    compute();
-    updateDisplay();
+    calculator.compute();
+    calculator.updateDisplay();
 });
 
-allClearButton.addEventListener('click', ()=> {
-    clear();
-    updateDisplay();
+allClearButton.addEventListener('click', () => {
+    calculator.clear();
+    calculator.updateDisplay();
 });
 
-//deleteButton.addEventListener('click', ()=> {
-    
-})
-
-
-function operator(previousOperand, currentOperand, operator) {
-    
-
-    switch(operator){
-        case '+':
-            return add(previousOperand, currentOperand);
-            
-        case '-':
-            return subtract(previousOperand, currentOperand);
-
-        case '÷':
-            return divide(previousOperand, currentOperand);
-
-        case '*':
-            return multiply(previousOperand, currentOperand);
-        default:
-            return 'ERROR';
-    }
-}
+deleteButton.addEventListener('click', () => {
+    calculator.delete();
+    calculator.updateDisplay();
+});
 
 
 
 
-function clear() {
-    currentOperand = '';
-    previousOperand = '';
-    operation = undefined;
-}
 
 
 
-function updateDisplay() {
-    currentOperandTextElement.textContent = currentOperand;
-    if (operation) {
-        previousOperandTextElement.textContent = `${previousOperand} ${operation}`;
-    } else {
-        previousOperandTextElement.textContent = '';
-    }
-}
 
 
-function add(a, b){
-        return a + b;
-}
-
-function subtract(a, b) {
-    return a - b;
-}
-
-function divide(a, b) {
-    if (b === 0) {
-        return 'Cannot divide by Zero'
-    } 
-    return a / b;
-}
-
-function multiply(a, b) {
-    return a * b;
-}
 
 
 
